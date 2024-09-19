@@ -1,4 +1,4 @@
-const data=[
+const resList=[{
     "info": {
                       "id": "239435",
                       "name": "La Pino'z Pizza",
@@ -908,5 +908,7 @@ const data=[
                       "link": "https://www.swiggy.com/city/delhi/rollsking-b-block-jail-road-rest123197",
                       "type": "WEBLINK"
                     }
-                  
-]
+                  }
+                ]
+
+export default resList;
