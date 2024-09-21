@@ -1,5 +1,6 @@
 {
   "name": "react_tutorial",
+  "proxy" : "https://www.swiggy.com/",
   "version": "1.0.0",
   "description": "\"This is a React Tutorial\"",
   "scripts": {
