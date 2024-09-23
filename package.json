@@ -1,6 +1,6 @@
 {
   "name": "react_tutorial",
-  "proxy" : "https://www.swiggy.com/",
+  "proxy": "https://www.swiggy.com/",
   "version": "1.0.0",
   "description": "\"This is a React Tutorial\"",
   "scripts": {
@@ -25,6 +25,7 @@
   },
   "dependencies": {
     "react": "^18.3.1",
-    "react-dom": "^18.3.1"
+    "react-dom": "^18.3.1",
+    "react-router-dom": "^6.26.2"
   }
 }

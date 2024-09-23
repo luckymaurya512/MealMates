@@ -43,6 +43,12 @@ body {
 .nav-items > ul > li {
   padding: 10px;
   margin: 10px;
+  color: white;
+}
+
+.nav-home{
+  color: white;
+  forced-color-adjust: white;
 }
 
 .res-card {
@@ -198,4 +204,7 @@ body {
 
 .search-btn:focus {
   outline: none;
+}
+link{
+  text-decoration: none;
 }
