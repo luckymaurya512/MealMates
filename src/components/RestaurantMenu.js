@@ -1,61 +1,51 @@
 import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
-import { MENU_API } from "../utils/constant";
+import useresInfo from "./useresInfo";
+import RestaurantCategory from "./RestaurantCategory";
+import { useState } from "react";
 
 const RestaurantMenu = () => {
-  const [resInfo, setResInfo] = useState(null); // Set the initial state to null
-  const [menuItems, setMenuItems] = useState([]); // Separate state for menu items
+
 
   const { resId } = useParams();
+  const resinfo = useresInfo(resId);
 
-  useEffect(() => {
-    fetchMenu();
-  }, []);
+  const [showIndex, setShowIndex] =useState(null);
 
-  const fetchMenu = async () => {
-    try {
-      const response = await fetch(
-        MENU_API+resId
-      );
-      const json = await response.json();
-      console.log(json); // Log the full response for debugging
+  const menuItems = resinfo?.data;
+  console.log(menuItems)
 
-      // Extract restaurant info safely
-      const restaurantInfo = json?.data?.cards?.find(
-        (card) => card.card?.card?.info
-      )?.card?.card?.info || {};
-      setResInfo(restaurantInfo);
+  const category = menuItems?.cards[4]?.groupedCard?.cardGroupMap?.REGULAR?.cards?.filter((items) => {
+    return items?.card?.card?.["@type"] === 'type.googleapis.com/swiggy.presentation.food.v2.ItemCategory'
+  });
+  console.log(category)
 
-      // Extract menu items safely
-      const menuCard = json?.data?.cards?.find(
-        (card) => card.groupedCard?.cardGroupMap?.REGULAR
-      );
-      const itemCards =
-        menuCard?.groupedCard?.cardGroupMap?.REGULAR?.cards
-          ?.flatMap((card) => card?.card?.card?.itemCards) || [];
-      setMenuItems(itemCards);
-    } catch (error) {
-      console.error("Error fetching menu:", error);
-    }
-  };
 
-  const { name = "Restaurant Name", cuisines = [] } = resInfo || {};
+
+
+  const { name = '', id = '', cloudinaryImageId = '', costForTwoMessage = '', cuisines = [] } = menuItems?.cards[2]?.card?.card?.info ?? {};
   return (
-    <div className="menu">
-      <h1>{name}</h1>
-      <h2>{cuisines.length ? cuisines.join(", ") : "Cuisines not available"}</h2>
-      <h1>MENU</h1>
-      <ul>
-        {menuItems.length > 0 ? (
-          menuItems.map((menuItem, index) => (
-            <li key={menuItem?.card?.info?.id}>
-              {menuItem?.card?.info?.name || "Item name not available"} - ₹ {menuItem?.card?.info?.price/100 || menuItem?.card?.info?.defaultPrice/100 || "Not available"}
-            </li>
-          ))
-        ) : (
-          <li>No menu items found</li>
-        )}
-      </ul>
+    <div className="max-w-4xl mx-auto p-6 rounded-lg">
+      <div>
+        <h1 className="text-3xl font-bold font-serif text-blue-600 text-center ">{name}</h1>
+        <h2 className="text-lg text-gray-600 font-serif text-center ">
+          {cuisines.length ? cuisines.join(", ") : "Cuisines not available"}
+        </h2>
+        <h3 className="text-center text-gray-600">{costForTwoMessage}</h3>
+        
+      </div>
+      <div className="m-4">
+        {/* <h1 className="text-xl font-semibold font-serif mb-2">MENU</h1> */}
+        {category?.map((items, index) => {
+          return (
+          <RestaurantCategory key={items.card.card.title} data={items?.card?.card}
+          showItems={index===showIndex ? true: false}
+          setShowIndex={() => setShowIndex(index)}
+           />
+
+          );
+        })}
+      </div>
     </div>
   );
 };
