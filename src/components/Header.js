@@ -43,11 +43,13 @@ const Header = () => {
     return (
         <div className="flex justify-between items-center py-3 px-4 bg-gray-200 shadow-lg transition-all duration-500 ease-in-out">
             <div className="flex-1 w-10">
+            <Link to="/" > 
                 <img 
                     className="w-16 h-auto transition-transform duration-500 hover:rotate-360 hover:scale-110"
                     src={logo} 
                     alt="Logo" 
                 />
+                </Link>
             </div>
             <div className="flex items-center">
                 <ul className="flex flex-wrap space-x-8">
