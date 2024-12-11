@@ -1,12 +1,18 @@
 import { useDispatch, useSelector } from "react-redux";
 import ItemList from "./ItemList";
 import { clearCart } from "../utils/cartSlice";
+import { toast } from 'react-toastify'; 
+import 'react-toastify/dist/ReactToastify.css';
 
 const Cart = () => {
   const cartItems = useSelector((store) => store.cart.items);
   const dispatch = useDispatch();
   const handleClearCart = () => {
     dispatch(clearCart());
+    toast.info('Cart cleared!', {
+      position: "top-right",
+      autoClose: 2000,
+    });
   };
 
   return (
@@ -28,8 +34,11 @@ const Cart = () => {
         )}
       </div>
       <div className="divide-y divide-gray-200">
-        <ItemList items={cartItems} />
+        <ItemList items={cartItems} className="font-extralight" />
+        {/* Total= {cartItems.reduce((acc, item) => acc + item.card.info.price / 100, 0)} */}
       </div>
+      {/* Add ToastContainer here if not already in App.js */}
+      {/* <ToastContainer /> */}
     </div>
   );
 };

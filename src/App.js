@@ -10,6 +10,9 @@ import RestaurantMenu from "./components/RestaurantMenu";
 import { Provider } from "react-redux";
 import appStore from "./utils/appStore";
 import Cart from "./components/Cart";
+import Login from "./components/Login";
+import { ToastContainer, toast } from 'react-toastify'; 
+import 'react-toastify/dist/ReactToastify.css'
 
 // import 
 // const heading=React.createElement(
@@ -1146,6 +1149,7 @@ const AppLayout=()=>{
     return(
         <Provider store = {appStore}>
         <div className="app">
+            <ToastContainer/>
             <Header/>
             <Outlet/>
         </div>
@@ -1178,6 +1182,10 @@ const appRouter = createBrowserRouter([
             {
                 path: "/cart",
                 element:<Cart/>,
+            },
+            {
+                path: "/login",
+                element: <Login />,  // Add the Login component here
             },
         ],
         errorElement:<Error/>,
