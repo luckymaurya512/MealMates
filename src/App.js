@@ -2,7 +2,7 @@ import React from "react";
 import ReactDOM from "react-dom/client";
 import Header from "./components/Header";
 import Body from "./components/Body";
-import { createBrowserRouter , RouterProvider, Outlet} from "react-router-dom";
+import { createBrowserRouter, RouterProvider, Outlet } from "react-router-dom";
 import About from "./components/About";
 import Contact from "./components/Contact";
 import Error from "./components/Error";
@@ -12,8 +12,9 @@ import appStore from "./utils/appStore";
 import Cart from "./components/Cart";
 import Login from "./components/Login";
 import RecipeFinder from "./components/RecipeFinder";
-import { ToastContainer, toast } from 'react-toastify'; 
-import 'react-toastify/dist/ReactToastify.css'
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import { ThemeProvider } from "./context/ThemeContext";
 
 // import 
 // const heading=React.createElement(
@@ -1146,14 +1147,16 @@ import 'react-toastify/dist/ReactToastify.css'
 
 
 
-const AppLayout=()=>{
-    return(
-        <Provider store = {appStore}>
-        <div className="app">
-            <ToastContainer/>
-            <Header/>
-            <Outlet/>
-        </div>
+const AppLayout = () => {
+    return (
+        <Provider store={appStore}>
+            <ThemeProvider>
+                <div className="app min-h-screen bg-gray-50 dark:bg-gray-900 dark:text-white transition-colors duration-500">
+                    <ToastContainer />
+                    <Header />
+                    <Outlet />
+                </div>
+            </ThemeProvider>
         </Provider>
     );
 }

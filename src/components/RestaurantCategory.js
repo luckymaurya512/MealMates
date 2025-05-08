@@ -11,9 +11,9 @@ const RestaurantCategory = ({ data, showItems, setShowIndex }) => {
   }
   return (
     <div>
-      <div className="w-full bg-gray-50 mx-auto flex justify-between my-4 shadow-lg p-3 cursor-pointer" onClick={handleClick}> 
-        <span className="font-bold text-lg">{data?.title || "NOT FOUND"} ({data?.itemCards?.length})</span>
-        <span>⬇️</span>
+      <div className="w-full bg-gray-50 dark:bg-gray-800 mx-auto flex justify-between my-4 shadow-lg p-3 cursor-pointer transition-colors" onClick={handleClick}> 
+        <span className="font-bold text-lg text-gray-900 dark:text-gray-100">{data?.title || "NOT FOUND"} ({data?.itemCards?.length})</span>
+        <span className="text-gray-900 dark:text-gray-100">⬇️</span>
       </div>
 
       {showItems && <ItemList items = {data.itemCards}/>}
