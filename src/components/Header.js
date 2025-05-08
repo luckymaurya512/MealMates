@@ -62,6 +62,9 @@ const Header = () => {
                     <li className="m-0 px-4 py-3 text-lg font-medium transition-colors duration-300 hover:bg-white shadow-md rounded-lg hover:translate-x-1">
                         <Link to="/contact" > Contact Us</Link>
                     </li>
+                    <li className="m-0 px-4 py-3 text-lg font-medium transition-colors duration-300 hover:bg-white shadow-md rounded-lg hover:translate-x-1">
+                        <Link to="/recipe-finder"> Find Recipe</Link>
+                    </li>
                     <li className="m-0 px-4 py-3 text-lg font-medium transition-colors duration-300 hover:bg-white shadow-md rounded-lg hover:translate-x-1 cursor-pointer">
                         <Link to="/cart" >Cart ({cartItems.length} item)</Link>
                     </li>

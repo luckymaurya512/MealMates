@@ -11,6 +11,7 @@ import { Provider } from "react-redux";
 import appStore from "./utils/appStore";
 import Cart from "./components/Cart";
 import Login from "./components/Login";
+import RecipeFinder from "./components/RecipeFinder";
 import { ToastContainer, toast } from 'react-toastify'; 
 import 'react-toastify/dist/ReactToastify.css'
 
@@ -1160,36 +1161,39 @@ const AppLayout=()=>{
 const appRouter = createBrowserRouter([
     {
         path: "/",
-        element:<AppLayout/>,
-        children:[
+        element: <AppLayout />,
+        children: [
             {
                 path: "/",
-                element: <Body/>
+                element: <Body />
             },
-
             {
                 path: "/about",
-                element: <About/>,
+                element: <About />
             },
             {
                 path: "/contact",
-                element: <Contact/>,
+                element: <Contact />
             },
             {
                 path: "/restaurants/:resId",
-                element:<RestaurantMenu/>,
+                element: <RestaurantMenu />
             },
             {
                 path: "/cart",
-                element:<Cart/>,
+                element: <Cart />
             },
             {
                 path: "/login",
-                element: <Login />,  // Add the Login component here
+                element: <Login />
             },
+            {
+                path: "/recipe-finder",
+                element: <RecipeFinder />
+            }
         ],
-        errorElement:<Error/>,
-    },
+        errorElement: <Error />
+    }
 ]);
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(<RouterProvider router={appRouter}/>);
