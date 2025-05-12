@@ -15,6 +15,7 @@ import RecipeFinder from "./components/RecipeFinder";
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { ThemeProvider } from "./context/ThemeContext";
+import OrderConfirmation from "./components/OrderConfirmation";
 
 // import 
 // const heading=React.createElement(
@@ -1193,7 +1194,11 @@ const appRouter = createBrowserRouter([
             {
                 path: "/recipe-finder",
                 element: <RecipeFinder />
-            }
+            },
+            {
+                path: "/order-confirmation",
+                element: <OrderConfirmation />
+            },
         ],
         errorElement: <Error />
     }

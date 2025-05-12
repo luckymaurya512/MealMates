@@ -127,7 +127,7 @@ const Body = () => {
       </div>
       {loadingMenus && <div className="text-center text-blue-500 mb-2">Searching menus...</div>}
       <div className="flex flex-wrap">
-        {filteredRestaurants.length > 0 ? (
+        {filteredRestaurants?.length > 0 ? (
           filteredRestaurants.map((restaurant) => (
             <Link to={`/restaurants/${restaurant.info.id}`} key={restaurant.info.id}>
               {restaurant.info.promoted ?( <RestaurantCardPromoted resData={restaurant}/>):
