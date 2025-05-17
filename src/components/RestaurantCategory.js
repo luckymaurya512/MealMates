@@ -17,12 +17,6 @@ const RestaurantCategory = ({ data, showItems, setShowIndex }) => {
       </div>
 
       {showItems && <ItemList items = {data.itemCards}/>}
-      {/* <details>
-        <summary className="w-full bg-gray-50 mx-auto flex justify-between my-4 shadow-lg">
-          {data.title}
-        </summary>
-      {showItems && <ItemList items = {data.itemCards}/>}
-      </details> */}
     </div>
   );
 };

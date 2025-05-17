@@ -72,8 +72,8 @@ const Login = () => {
 
   return (
     <div className="relative min-h-screen bg-[#FFFFFF] ">
-      <div className="absolute inset-0 flex items-center justify-center bg-[#FFFFFF] bg-opacity-50 z-10">
-        <div className="bg-black bg-opacity-75 px-16 py-12 rounded-lg shadow-lg "style={{ width: '30%' }}>
+      <div className="absolute inset-0 flex items-center justify-center bg-[#FFFFFF] bg-opacity-50 z-10 dark:bg-[#111827]">
+        <div className="bg-black  dark:bg-[#1F2937] px-16 py-12 rounded-lg shadow-lg "style={{ width: '30%' }}>
           <h2 className="text-3xl font-bold text-white mb-6">{isSignIn ? "Sign In" : "Sign Up"}</h2>
           <form onSubmit={(event)=>event.preventDefault()}>
             <div className="mb-4">

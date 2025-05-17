@@ -1,5 +1,4 @@
 import RestaurantCard from "./RestaurantCard";
-// import resList from "../utils/mockData";
 import { useEffect, useState, useRef } from "react";
 import Shrimmer from "./Shrimmer";
 import { Link } from "react-router-dom";
@@ -24,8 +23,7 @@ const Body = () => {
         );
         const json = await response.json();
         const resList =
-          json?.data?.cards[1]?.card.card?.gridElements?.infoWithStyle
-            ?.restaurants;
+          json?.data?.cards[1]?.card?.card?.gridElements?.infoWithStyle?.restaurants;
         setListOfRestaurants(resList);
         setFilteredRestaurants(resList);
       } catch (error) {
@@ -42,8 +40,9 @@ const Body = () => {
     try {
       const response = await fetch(MENU_API + restaurantId);
       const data = await response.json();
-      // Extract all menu item names
-      const menuCards = data?.data?.cards?.find(card => card.card?.card?.itemCards || card.groupedCard)?.groupedCard?.cardGroupMap?.REGULAR?.cards || [];
+      const menuCards =
+        data?.data?.cards?.find(card => card.card?.card?.itemCards || card.groupedCard)
+          ?.groupedCard?.cardGroupMap?.REGULAR?.cards || [];
       let menuItems = [];
       menuCards.forEach(card => {
         const items = card.card?.card?.itemCards;
@@ -72,12 +71,10 @@ const Body = () => {
     const lowerQuery = query.toLowerCase();
     const filtered = [];
     for (const restaurant of listOfRestaurants) {
-      // Check restaurant name
       if (restaurant.info.name.toLowerCase().includes(lowerQuery)) {
         filtered.push(restaurant);
         continue;
       }
-      // Check menu items
       const menuItems = await fetchMenuItems(restaurant.info.id);
       if (menuItems.some(itemName => itemName.includes(lowerQuery))) {
         filtered.push(restaurant);
@@ -101,15 +98,16 @@ const Body = () => {
   }
 
   return (
-    <div className="p-5">
-      <div className="flex justify-between items-center mb-4">
-        <div className="flex items-center">
+    <div className="p-4 max-w-7xl mx-auto">
+      {/* Search + Filter */}
+      <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-4 mb-6">
+        <div className="flex flex-col sm:flex-row gap-3 sm:items-center w-full sm:w-auto">
           <input
             type="text"
-            className="px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 w-72 mx-5 bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100 placeholder-gray-500 dark:placeholder-gray-400 transition-colors"
+            className="px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 w-full sm:w-72 bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100 placeholder-gray-500 dark:placeholder-gray-400 transition-colors"
             placeholder="Search for restaurants or menu..."
             value={searchText}
-            onChange={e => handleSearch(e.target.value)}
+            onChange={(e) => handleSearch(e.target.value)}
           />
           <button
             className="px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition duration-300"
@@ -119,23 +117,36 @@ const Body = () => {
           </button>
         </div>
         <button
-          className="mr-2 px-4 py-2 bg-green-500 text-white rounded-lg hover:bg-green-600 transition duration-300"
+          className="px-4 py-2 bg-green-500 text-white rounded-lg hover:bg-green-600 transition duration-300 w-full sm:w-auto"
           onClick={handleFilter}
         >
           Top Rated Restaurants
         </button>
       </div>
-      {loadingMenus && <div className="text-center text-blue-500 mb-2">Searching menus...</div>}
-      <div className="flex flex-wrap">
+
+      {loadingMenus && (
+        <div className="text-center text-blue-500 mb-4">Searching menus...</div>
+      )}
+
+      {/* Restaurant Cards */}
+      <div className="flex flex-wrap justify-center gap-4">
         {filteredRestaurants?.length > 0 ? (
           filteredRestaurants.map((restaurant) => (
-            <Link to={`/restaurants/${restaurant.info.id}`} key={restaurant.info.id}>
-              {restaurant.info.promoted ?( <RestaurantCardPromoted resData={restaurant}/>):
-              (<RestaurantCard resData={restaurant} />)}
+            <Link
+              to={`/restaurants/${restaurant.info.id}`}
+              key={restaurant.info.id}
+            >
+              {restaurant.info.promoted ? (
+                <RestaurantCardPromoted resData={restaurant} />
+              ) : (
+                <RestaurantCard resData={restaurant} />
+              )}
             </Link>
           ))
         ) : (
-          <div className="w-full text-center mt-4">No restaurants found</div>
+          <div className="w-full text-center text-gray-500 mt-4">
+            No restaurants found
+          </div>
         )}
         {error && <div className="text-red-500">Error: {error.message}</div>}
       </div>

@@ -2,103 +2,115 @@ import { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 import logo from "../assets/logo.png";
-import { auth } from '../utils/firebase'; // Import auth
-import { onAuthStateChanged, signOut } from "firebase/auth"; // Import necessary Firebase methods
+import { auth } from "../utils/firebase";
+import { onAuthStateChanged, signOut } from "firebase/auth";
 import { useTheme } from "../context/ThemeContext";
 
 const Header = () => {
-    const [btnNameReact, setBtnNameReact] = useState("Login");
-    const cartItems = useSelector((store) => store.cart.items);
-    const navigate = useNavigate();
-    const { isDarkMode, toggleTheme } = useTheme();
-    
-    useEffect(() => {
-        // Set the initial button state based on user's authentication status
-        const unsubscribe = onAuthStateChanged(auth, (user) => {
-            if (user) {
-                setBtnNameReact("Logout");
-            } else {
-                setBtnNameReact("Login");
-            }
-        });
+  const [btnNameReact, setBtnNameReact] = useState("Login");
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const cartItems = useSelector((store) => store.cart.items);
+  const navigate = useNavigate();
+  const { isDarkMode, toggleTheme } = useTheme();
 
-        return () => {
-            unsubscribe(); // Cleanup the subscription on unmount
-        };
-    }, []);
+  useEffect(() => {
+    const unsubscribe = onAuthStateChanged(auth, (user) => {
+      setBtnNameReact(user ? "Logout" : "Login");
+    });
+    return () => unsubscribe();
+  }, []);
 
-    const handleLoginClick = () => {
-        if (btnNameReact === "Login") {
-            navigate("/login");
-        } else {
-            signOut(auth) // Sign out the user
-                .then(() => {
-                    setBtnNameReact("Login"); // Reset button to "Login"
-                    navigate("/"); // Optionally redirect the user after logging out
-                })
-                .catch((error) => {
-                    console.error("Error during logout:", error);
-                });
-        }
-    };
+  const handleLoginClick = () => {
+    if (btnNameReact === "Login") {
+      navigate("/login");
+    } else {
+      signOut(auth)
+        .then(() => {
+          setBtnNameReact("Login");
+          navigate("/");
+        })
+        .catch((error) => console.error("Logout error:", error));
+    }
+  };
 
-    return (
-        <div className={`flex justify-between items-center py-3 px-4 ${isDarkMode ? 'bg-gray-800 text-white' : 'bg-gray-200'} shadow-lg transition-all duration-500 ease-in-out`}>
-            <div className="flex-1 w-10">
-            <Link to="/" > 
-                <img 
-                    className="w-16 h-auto transition-transform duration-500 hover:rotate-360 hover:scale-110"
-                    src={logo} 
-                    alt="Logo" 
-                />
-                </Link>
-            </div>
-            <div className="flex items-center">
-                <ul className="flex flex-wrap space-x-8">
-                    <li className={`m-0 px-4 py-3 text-lg font-medium transition-colors duration-300 ${isDarkMode ? 'hover:bg-gray-700' : 'hover:bg-white'} shadow-md rounded-lg hover:translate-x-1`}>
-                        <Link to="/" > Home</Link>
-                    </li>
-                    <li className={`m-0 px-4 py-3 text-lg font-medium transition-colors duration-300 ${isDarkMode ? 'hover:bg-gray-700' : 'hover:bg-white'} shadow-md rounded-lg hover:translate-x-1`}>
-                        <Link to="/about"> About Us</Link>
-                    </li>
-                    <li className={`m-0 px-4 py-3 text-lg font-medium transition-colors duration-300 ${isDarkMode ? 'hover:bg-gray-700' : 'hover:bg-white'} shadow-md rounded-lg hover:translate-x-1`}>
-                        <Link to="/contact" > Contact Us</Link>
-                    </li>
-                    <li className={`m-0 px-4 py-3 text-lg font-medium transition-colors duration-300 ${isDarkMode ? 'hover:bg-gray-700' : 'hover:bg-white'} shadow-md rounded-lg hover:translate-x-1`}>
-                        <Link to="/recipe-finder"> Find Recipe</Link>
-                    </li>
-                    <li className={`m-0 px-4 py-3 text-lg font-medium transition-colors duration-300 ${isDarkMode ? 'hover:bg-gray-700' : 'hover:bg-white'} shadow-md rounded-lg hover:translate-x-1 cursor-pointer`}>
-                        <Link to="/cart" >Cart ({cartItems.length} item)</Link>
-                    </li>
-                    <button 
-                        className={`m-0 py-2 px-4 ${isDarkMode ? 'bg-blue-600 hover:bg-blue-700' : 'bg-blue-500 hover:bg-orange-500'} text-white text-lg font-medium transition-colors duration-300 ease-in-out hover:scale-105 shadow-md rounded-lg hover:translate-x-1`}
-                        onClick={handleLoginClick}  
-                    >
-                        {btnNameReact}
-                    </button>
-                    <button
-                        onClick={toggleTheme}
-                        className={`p-2 rounded-lg transition-colors duration-300 ${
-                            isDarkMode 
-                            ? 'bg-gray-700 hover:bg-gray-600 text-yellow-300' 
-                            : 'bg-gray-300 hover:bg-gray-400 text-gray-800'
-                        }`}
-                        aria-label="Toggle theme"
-                    >
-                        {isDarkMode ? (
-                            <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" />
-                            </svg>
-                        ) : (
-                            <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" />
-                            </svg>
-                        )}
-                    </button>
-                </ul>
-            </div>
+  return (
+    <header className={`w-full shadow-md transition-all duration-500 ${isDarkMode ? 'bg-gray-800 text-white' : 'bg-gray-200 text-black'}`}>
+      <div className="max-w-7xl mx-auto px-4 py-3 flex justify-between items-center">
+        {/* Logo */}
+        <Link to="/">
+          <img src={logo} alt="Logo" className="w-16 h-auto" />
+        </Link>
+
+        {/* Hamburger button */}
+        <button
+          className="lg:hidden p-2 focus:outline-none"
+          onClick={() => setIsMenuOpen(!isMenuOpen)}
+        >
+          <svg
+            className="w-6 h-6"
+            fill="none"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            {isMenuOpen ? (
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+            ) : (
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
+            )}
+          </svg>
+        </button>
+
+        {/* Desktop menu */}
+        <nav className="hidden lg:flex space-x-6 items-center">
+          <NavLinks
+            cartItems={cartItems}
+            btnNameReact={btnNameReact}
+            handleLoginClick={handleLoginClick}
+            toggleTheme={toggleTheme}
+            isDarkMode={isDarkMode}
+          />
+        </nav>
+      </div>
+
+      {/* Mobile menu */}
+      {isMenuOpen && (
+        <div className="lg:hidden px-4 pb-4 space-y-4">
+          <NavLinks
+            cartItems={cartItems}
+            btnNameReact={btnNameReact}
+            handleLoginClick={handleLoginClick}
+            toggleTheme={toggleTheme}
+            isDarkMode={isDarkMode}
+            mobile
+          />
         </div>
-    );
+      )}
+    </header>
+  );
 };
+
+const NavLinks = ({ cartItems, btnNameReact, handleLoginClick, toggleTheme, isDarkMode, mobile = false }) => (
+  <>
+    <Link to="/" className={navLinkClasses(mobile)}>Home</Link>
+    <Link to="/recipe-finder" className={navLinkClasses(mobile)}>Find Recipe</Link>
+    <Link to="/cart" className={navLinkClasses(mobile)}>
+      Cart ({cartItems.length} item{cartItems.length !== 1 ? "s" : ""})
+    </Link>
+    <button onClick={handleLoginClick} className={`${navLinkClasses(mobile)} bg-blue-500 hover:bg-blue-600 text-white rounded px-4 py-2`}>
+      {btnNameReact}
+    </button>
+    <button
+      onClick={toggleTheme}
+      className={`${navLinkClasses(mobile)} p-2 rounded ${isDarkMode ? 'bg-gray-700 text-yellow-300' : 'bg-gray-300 text-black'}`}
+      aria-label="Toggle theme"
+    >
+      {isDarkMode ? "🌙" : "☀️"}
+    </button>
+  </>
+);
+
+const navLinkClasses = (mobile) =>
+  `${mobile ? "block w-full" : "inline-block"} px-4 py-2 font-medium transition hover:scale-105`;
 
 export default Header;

@@ -50,7 +50,7 @@ const RecipeFinder = () => {
     };
 
     return (
-        <div className="max-w-4xl mx-auto p-6 bg-white dark:bg-gray-800 rounded-lg shadow-lg transition-colors duration-500 text-gray-900 dark:text-gray-100">
+        <div className="max-w-4xl mx-auto p-6 bg-white dark:bg-gray-800 rounded-lg shadow-lg mt-10 transition-colors duration-500 text-gray-900 dark:text-gray-100">
             <h2 className="text-3xl font-bold mb-6 text-center text-gray-900 dark:text-gray-100">Find Your Recipe</h2>
             <form onSubmit={handleSubmit} className="mb-8">
                 <div className="flex gap-4">

@@ -21,8 +21,6 @@ const RestaurantMenu = () => {
   console.log(category)
 
 
-
-
   const { name = '', id = '', cloudinaryImageId = '', costForTwoMessage = '', cuisines = [] } = menuItems?.cards[2]?.card?.card?.info ?? {};
   return (
     <div className="max-w-4xl mx-auto p-6 rounded-lg">
